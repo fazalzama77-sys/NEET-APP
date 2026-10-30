@@ -594,17 +594,7 @@
     };
 
     
-    var curMode = state.notesViewMode || 'sheets';
-    var viewModeTabsHtml = '' +
-      '<div class="view-mode-tabs no-print">' +
-        '<button class="mode-tab-btn ' + (curMode === 'sheets' ? 'active' : '') + '" data-vmode="sheets">📑 4-Page Clinical Print Sheets</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'guide' ? 'active' : '') + '" data-vmode="guide">📖 Topic-by-Topic Chapter Masterclass</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'blitz' ? 'active' : '') + '" data-vmode="blitz">⚡ Formula Blitz &amp; Speed-Hacks (' + (u.formulas || []).length + ')</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'traps' ? 'active' : '') + '" data-vmode="traps">🚨 NTA Traps &amp; Exception Vault (' + (u.traps || []).length + ')</button>' +
-      '</div>';
-
     root.innerHTML = '' +
-      viewModeTabsHtml +
       '<div class="mock-layout">' +
         '<div class="panel-box">' +
           '<div class="panel-title">' +
@@ -1364,15 +1354,13 @@
     paceTimer = setInterval(function () {
       if (!drillSession || drillSession.finished || state.tab !== 'drill') return;
       drillSession.secOnQ++;
-      var bar = document.getElementById('paceBarFill');
+      var timerWrap = document.getElementById('drillTimerWrap');
       var lbl = document.getElementById('paceSecLabel');
-      var pct = Math.min(100, (drillSession.secOnQ / 60) * 100);
-      if (bar) {
-        bar.style.width = pct + '%';
-        bar.className = 'pace-bar' + (drillSession.secOnQ >= 60 ? ' over' : (drillSession.secOnQ >= 45 ? ' warn' : ''));
-      }
       if (lbl) {
-        lbl.textContent = drillSession.secOnQ + 's / 60s' + (drillSession.secOnQ >= 60 ? ' (Skip to Round 2!)' : '');
+        lbl.textContent = drillSession.secOnQ + 's / 60s';
+      }
+      if (timerWrap) {
+        timerWrap.className = 'drill-timer-pill' + (drillSession.secOnQ >= 60 ? ' over' : (drillSession.secOnQ >= 45 ? ' warn' : ''));
       }
     }, 1000);
   }
@@ -1438,17 +1426,7 @@
       var maxScore = qs.length * 4;
 
       
-    var curMode = state.notesViewMode || 'sheets';
-    var viewModeTabsHtml = '' +
-      '<div class="view-mode-tabs no-print">' +
-        '<button class="mode-tab-btn ' + (curMode === 'sheets' ? 'active' : '') + '" data-vmode="sheets">📑 4-Page Clinical Print Sheets</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'guide' ? 'active' : '') + '" data-vmode="guide">📖 Topic-by-Topic Chapter Masterclass</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'blitz' ? 'active' : '') + '" data-vmode="blitz">⚡ Formula Blitz &amp; Speed-Hacks (' + (u.formulas || []).length + ')</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'traps' ? 'active' : '') + '" data-vmode="traps">🚨 NTA Traps &amp; Exception Vault (' + (u.traps || []).length + ')</button>' +
-      '</div>';
-
     root.innerHTML = '' +
-      viewModeTabsHtml +
         '<div class="panel-box" style="max-width:800px;margin:20px auto;animation:fadeInUp 0.35s var(--ease-spring);">' +
           '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">' +
             '<span class="badge badge-mock">DRILL COMPLETED · ' + u.id + '</span>' +
@@ -1538,22 +1516,15 @@
     }).join('');
 
     
-    var curMode = state.notesViewMode || 'sheets';
-    var viewModeTabsHtml = '' +
-      '<div class="view-mode-tabs no-print">' +
-        '<button class="mode-tab-btn ' + (curMode === 'sheets' ? 'active' : '') + '" data-vmode="sheets">📑 4-Page Clinical Print Sheets</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'guide' ? 'active' : '') + '" data-vmode="guide">📖 Topic-by-Topic Chapter Masterclass</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'blitz' ? 'active' : '') + '" data-vmode="blitz">⚡ Formula Blitz &amp; Speed-Hacks (' + (u.formulas || []).length + ')</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'traps' ? 'active' : '') + '" data-vmode="traps">🚨 NTA Traps &amp; Exception Vault (' + (u.traps || []).length + ')</button>' +
-      '</div>';
-
     root.innerHTML = '' +
-      viewModeTabsHtml +
       '<div class="drill-header">' +
         '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">' +
           '<select class="unit-select" id="drillUnitSelect">' + optionsHtml + '</select>' +
           '<span class="badge badge-mock">ROUND ' + drillSession.round + ' TRIAGE</span>' +
-          '<span style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted)" id="paceSecLabel">0s / 60s</span>' +
+          '<div class="drill-timer-pill" id="drillTimerWrap" title="Elapsed Time / 60s Target Pace">' +
+            '<span class="timer-icon">⏱️</span>' +
+            '<span id="paceSecLabel">0s / 60s</span>' +
+          '</div>' +
         '</div>' +
         '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
           (r2Count > 0 ? '<button class="btn btn-amber" id="jumpRound2Btn">Jump to Round-2 Queue (' + r2Count + ')</button>' : '') +
@@ -1561,8 +1532,6 @@
           '<button class="btn btn-primary" id="finishDrillBtn">Finish &amp; Score (' + answeredCount + '/' + qs.length + ')</button>' +
         '</div>' +
       '</div>' +
-
-      '<div class="pace-wrap"><div class="pace-bar" id="paceBarFill" style="width:0%"></div></div>' +
 
       '<div class="drill-layout">' +
         '<div class="q-panel" id="questionCardPanel">' +
@@ -1722,25 +1691,14 @@
      VIEW 5: PERSONAL MISTAKE VAULT (Saved Pitfalls & Traps)
      ========================================================================== */
   function renderVault(root) {
-    var list = state.vault;
+    var list = state.vault || [];
     if (!list.length) {
-      
-    var curMode = state.notesViewMode || 'sheets';
-    var viewModeTabsHtml = '' +
-      '<div class="view-mode-tabs no-print">' +
-        '<button class="mode-tab-btn ' + (curMode === 'sheets' ? 'active' : '') + '" data-vmode="sheets">📑 4-Page Clinical Print Sheets</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'guide' ? 'active' : '') + '" data-vmode="guide">📖 Topic-by-Topic Chapter Masterclass</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'blitz' ? 'active' : '') + '" data-vmode="blitz">⚡ Formula Blitz &amp; Speed-Hacks (' + (u.formulas || []).length + ')</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'traps' ? 'active' : '') + '" data-vmode="traps">🚨 NTA Traps &amp; Exception Vault (' + (u.traps || []).length + ')</button>' +
-      '</div>';
-
-    root.innerHTML = '' +
-      viewModeTabsHtml +
+      root.innerHTML = '' +
         '<div class="panel-box" style="text-align:center;padding:54px 20px;max-width:760px;margin:20px auto;animation:fadeInUp 0.3s var(--ease-spring);">' +
           '<div style="font-size:42px;margin-bottom:12px;">🛡️</div>' +
-          '<h3 style="font-size:18px;margin-bottom:8px;">Your Mistake Vault is Spotless!</h3>' +
+          '<h3 style="font-size:18px;margin-bottom:8px;">Your Mistake Vault is Clean!</h3>' +
           '<p style="color:var(--text-muted);font-size:13.5px;line-height:1.6;max-width:540px;margin:0 auto 20px;">' +
-            'Every question you miss during the Reflex Drills is logged here automatically with its trap rationale and visual solution.' +
+            'Every question you miss during the Reflex Drills is logged here automatically with its trap rationale and visual step-by-step solution.' +
           '</p>' +
           '<button class="btn btn-primary" id="vaultGoDrillBtn">⚡ Launch a Reflex Drill</button>' +
         '</div>';
@@ -1776,25 +1734,45 @@
         '</div>';
     }).join('');
 
-    
-    var curMode = state.notesViewMode || 'sheets';
-    var viewModeTabsHtml = '' +
-      '<div class="view-mode-tabs no-print">' +
-        '<button class="mode-tab-btn ' + (curMode === 'sheets' ? 'active' : '') + '" data-vmode="sheets">📑 4-Page Clinical Print Sheets</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'guide' ? 'active' : '') + '" data-vmode="guide">📖 Topic-by-Topic Chapter Masterclass</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'blitz' ? 'active' : '') + '" data-vmode="blitz">⚡ Formula Blitz &amp; Speed-Hacks (' + (u.formulas || []).length + ')</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'traps' ? 'active' : '') + '" data-vmode="traps">🚨 NTA Traps &amp; Exception Vault (' + (u.traps || []).length + ')</button>' +
-      '</div>';
-
     root.innerHTML = '' +
-      viewModeTabsHtml +
       '<div class="toolbar-wrapper" style="animation:fadeInUp 0.3s var(--ease-spring);">' +
         '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">' +
           '<div><b>' + list.length + ' Traps Logged in Vault</b> — Review regularly to completely eliminate repeat negative marking in mocks.</div>' +
-          '<button class="btn btn-danger" id="clearVaultBtn">Clear Entire Mistake Vault</button>' +
+          '<div style="display:flex;gap:8px;align-items:center;">' +
+            '<button class="btn btn-primary" id="reDrillVaultBtn">⚡ Re-Drill These ' + list.length + ' Mistakes</button>' +
+            '<button class="btn btn-danger" id="clearVaultBtn">Clear Mistake Vault</button>' +
+          '</div>' +
         '</div>' +
       '</div>' +
       cards;
+
+    var reDrillBtn = document.getElementById('reDrillVaultBtn');
+    if (reDrillBtn) {
+      reDrillBtn.addEventListener('click', function () {
+        var vaultQs = list.map(function (v) {
+          return {
+            q: v.q,
+            o: v.o,
+            a: v.a,
+            tag: v.tag,
+            sol: v.sol,
+            src: 'Mistake Vault · ' + v.unit
+          };
+        });
+        drillSession = {
+          unitId: list[0] ? list[0].unit : 'P1',
+          questions: vaultQs,
+          idx: 0,
+          round: 1,
+          secOnQ: 0,
+          status: vaultQs.map(function () { return 'unseen'; }),
+          chosen: vaultQs.map(function () { return null; }),
+          finished: false
+        };
+        switchTab('drill');
+        showToast('Loaded ' + vaultQs.length + ' mistakes into Reflex Drill!');
+      });
+    }
 
     document.getElementById('clearVaultBtn').addEventListener('click', function () {
       if (confirm('Clear all ' + state.vault.length + ' logged mistakes?')) {
@@ -1804,6 +1782,7 @@
         renderVault(root);
       }
     });
+
     root.querySelectorAll('[data-del-vault]').forEach(function (b) {
       b.addEventListener('click', function () {
         var id = b.getAttribute('data-del-vault');
@@ -1819,8 +1798,8 @@
      PWA ENGINE: Service Worker Registration, Installability & Offline Management
      ========================================================================== */
   var deferredInstallPrompt = null;
-  var isPwaStandalone = window.matchMedia('(display-mode: standalone)').matches ||
-                        window.navigator.standalone === true;
+  var isPwaStandalone = (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+                        (typeof navigator !== 'undefined' && navigator.standalone === true);
 
   function initPWA() {
     initServiceWorker();
@@ -1938,7 +1917,7 @@
     }
   }
 
-  var isOnline = typeof navigator.onLine === 'boolean' ? navigator.onLine : true;
+  var isOnline = (typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean') ? navigator.onLine : true;
 
   function initNetworkMonitor() {
     updateNetworkBadge();
@@ -2076,17 +2055,7 @@
     var isLast = tourCurrentStep === total - 1;
 
     
-    var curMode = state.notesViewMode || 'sheets';
-    var viewModeTabsHtml = '' +
-      '<div class="view-mode-tabs no-print">' +
-        '<button class="mode-tab-btn ' + (curMode === 'sheets' ? 'active' : '') + '" data-vmode="sheets">📑 4-Page Clinical Print Sheets</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'guide' ? 'active' : '') + '" data-vmode="guide">📖 Topic-by-Topic Chapter Masterclass</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'blitz' ? 'active' : '') + '" data-vmode="blitz">⚡ Formula Blitz &amp; Speed-Hacks (' + (u.formulas || []).length + ')</button>' +
-        '<button class="mode-tab-btn ' + (curMode === 'traps' ? 'active' : '') + '" data-vmode="traps">🚨 NTA Traps &amp; Exception Vault (' + (u.traps || []).length + ')</button>' +
-      '</div>';
-
     root.innerHTML = '' +
-      viewModeTabsHtml +
       '<div class="tour-backdrop" id="tourBackdropEl">' +
         '<div class="tour-card" id="tourCardEl">' +
           '<div class="tour-head">' +
@@ -2207,4 +2176,15 @@
       }
     } catch (e) {}
   });
+
+  if (typeof window !== 'undefined') {
+    window.NEET_APP = {
+      state: state,
+      render: render,
+      renderMockLock: renderMockLock,
+      renderDashboard: renderDashboard,
+      renderNotes: renderNotes,
+      parseSyllabusText: parseSyllabusText
+    };
+  }
 })();
