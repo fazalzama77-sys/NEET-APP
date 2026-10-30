@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "NEET-UG Clinical Revision & Exam Trainer",
+  "short_name": "NEET Trainer",
+  "description": "Official NMC 2026 NEET (UG) Syllabus — Full 40-Unit Interactive Revision & Spaced Repetition Exam Trainer. 100% offline-ready with active blind recall and 3-round reflex drills.",
+  "id": "neet-ug-clinical-trainer-2026",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
+  "orientation": "any",
+  "background_color": "#f8fafc",
+  "theme_color": "#0d9488",
+  "categories": [
+    "education",
+    "medical",
+    "productivity"
+  ],
+  "dir": "ltr",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "icons/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Radar & Matrix",
+      "short_name": "Radar",
+      "description": "Spaced Repetition decay status across all 40 NMC units",
+      "url": "./index.html#dashboard",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Mock Syllabus Lock",
+      "short_name": "Mock Lock",
+      "description": "Paste and lock test syllabus from coaching schedules",
+      "url": "./index.html#mock",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "4-Block Revision Notes",
+      "short_name": "Formula Sheet",
+      "description": "Pictographic memory blocks with active blind recall",
+      "url": "./index.html#notes",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Reflex Drill",
+      "short_name": "Reflex Drill",
+      "description": "Timed 3-round exam simulation with 60s pace bar",
+      "url": "./index.html#drill",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Mistake Vault",
+      "short_name": "Mistake Vault",
+      "description": "Review logged negative marking traps and visual solutions",
+      "url": "./index.html#vault",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false
+}

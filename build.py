@@ -10,6 +10,7 @@ SRC = os.path.join(ROOT, 'src')
 PARTS = [
     'shell_head.html',
     'core.js',
+    'notes_engine.js',
     'data_p1.js',
     'data_p2.js',
     'data_c1.js',
@@ -34,6 +35,14 @@ def main():
     with open(out_path, 'w', encoding='utf-8') as f:
         f.write(full)
     print(f'Built {out_path} ({len(full):,} bytes)')
+
+    # Keep manifest.json synchronized as an alias of manifest.webmanifest
+    m_web = os.path.join(ROOT, 'manifest.webmanifest')
+    m_json = os.path.join(ROOT, 'manifest.json')
+    if os.path.exists(m_web):
+        import shutil
+        shutil.copyfile(m_web, m_json)
+        print('Synchronized manifest.json')
 
 if __name__ == '__main__':
     main()

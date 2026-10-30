@@ -69,20 +69,45 @@ Built for NEET-UG aspirants aiming for AIR < 5000:
 
 ---
 
+## 📲 Offline PWA Installation
+
+The application is a full **Progressive Web App (PWA)** that can be installed on Desktop (Chrome, Edge) and Mobile (Android, iOS Safari):
+- **100% Offline Functional:** All 40 NMC units, formulas, parametric question synthesis generators, active blind recall, spaced repetition radar, and mistake vault work completely offline with zero internet dependency.
+- **Service Worker (`sw.js`):** Offline-first pre-caching with automatic cache revalidation and in-app update notifications.
+- **Home Screen & Desktop Launcher:** Standalone window mode without browser address bars or navigation clutter.
+- **5 App Shortcuts:** Long-press the app icon (mobile) or right-click (desktop) for 1-click jumps to:
+  1. *Radar & Matrix* (`#dashboard`)
+  2. *Mock Syllabus Lock* (`#mock`)
+  3. *4-Block Formula & Notes* (`#notes`)
+  4. *3-Round Reflex Drill* (`#drill`)
+  5. *Mistake Vault* (`#vault`)
+
+### How to Install:
+- **Chrome / Edge (Desktop & Android):** Click the **📲 Install App** button in the header bar or the browser install icon in the address bar.
+- **iOS Safari (iPhone / iPad):** Tap the **Share** button (`⎋`), scroll down, and select **Add to Home Screen** (`⊞`).
+
+---
+
 ## 🛠️ How to Run Locally
 
 Because the entire application is standalone and self-contained in `index.html`:
 ```bash
 # 1. Clone the repository
 git clone https://github.com/fazalzama77-sys/NEET-APP.git
-
-# 2. Open index.html directly in your browser
 cd NEET-APP
+
+# 2. Option A: Run as a local web server (enables Service Worker & PWA installation)
+npx serve .
+# or
+python -m http.server 8080
+# Open http://localhost:8080 in Chrome / Edge / Safari
+
+# 3. Option B: Open directly from disk
 start index.html   # On Windows
 open index.html    # On macOS
 xdg-open index.html # On Linux
 ```
-No Node.js, Python, or local server is required to use the app.
+No build steps or dependencies are required to use the app.
 
 ---
 
